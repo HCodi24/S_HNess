@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Run"
+  short_description: "Execute an approved plan with review gates."
+  default_prompt: "Use $s-run to execute the approved plan safely."

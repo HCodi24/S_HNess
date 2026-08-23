@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Plan"
+  short_description: "Create a decision-complete implementation plan."
+  default_prompt: "Use $s-plan to plan this work for the appropriate domain."

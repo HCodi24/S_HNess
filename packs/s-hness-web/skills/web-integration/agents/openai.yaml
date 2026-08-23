@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Integration"
+  short_description: "Define frontend-backend contracts and flows."
+  default_prompt: "Use $web-integration to define the frontend-backend contracts for this workflow."

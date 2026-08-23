@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Verify"
+  short_description: "Verify outcomes with risk-based evidence."
+  default_prompt: "Use $s-verify to check this work against its acceptance criteria."

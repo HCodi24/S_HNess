@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Delivery Verify"
+  short_description: "Verify tool packaging and delivery evidence"
+  default_prompt: "Use $tool-delivery-verify to verify this tool is ready for delivery."

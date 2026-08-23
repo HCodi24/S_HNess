@@ -1,0 +1,4 @@
+interface:
+  display_name: "BE API Design"
+  short_description: "Design stable backend APIs and contracts."
+  default_prompt: "Use $be-api-design to define a stable API contract for this backend workflow."

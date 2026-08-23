@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Product Design"
+  short_description: "Choose tool form, architecture, and structure"
+  default_prompt: "Use $tool-product-design to design this tool's architecture and project structure."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Deployment"
+  short_description: "Design web environments and deployment topology."
+  default_prompt: "Use $web-deployment to design a safe rollout and recovery plan for this web system."

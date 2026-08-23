@@ -1,0 +1,4 @@
+interface:
+  display_name: "FE Verify"
+  short_description: "Verify frontend behavior and user experience."
+  default_prompt: "Use $fe-verify to verify this frontend behavior and user experience with evidence."

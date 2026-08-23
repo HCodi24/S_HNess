@@ -1,0 +1,20 @@
+{
+  "name": "s-hness-tools",
+  "version": "0.1.0",
+  "description": "Stack-neutral tool product, interface, integration, packaging, and delivery verification skills for S_HNess.",
+  "author": { "name": "Local developer" },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "S_HNess Tool Builder",
+    "shortDescription": "Design, package, and verify engineering tools.",
+    "longDescription": "Adds stack-neutral guidance for choosing a tool form, structuring tool projects, designing interfaces and integrations, packaging and updating tools, and verifying delivery.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Design the architecture and folder structure for this tool.",
+      "Define the interface and integrations for this tool.",
+      "Verify this tool is ready to package and deliver."
+    ]
+  }
+}

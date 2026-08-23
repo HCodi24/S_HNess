@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Packaging Design"
+  short_description: "Design packaging, updates, and rollback"
+  default_prompt: "Use $tool-packaging-design to design this tool's packaging and delivery lifecycle."

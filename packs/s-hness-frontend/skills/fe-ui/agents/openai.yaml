@@ -1,0 +1,4 @@
+interface:
+  display_name: "FE UI"
+  short_description: "Design interactive UI behavior and component states."
+  default_prompt: "Use $fe-ui to design the interaction and component states for this frontend workflow."

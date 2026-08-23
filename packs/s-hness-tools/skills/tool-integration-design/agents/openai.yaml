@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Integration Design"
+  short_description: "Design stable external integration boundaries"
+  default_prompt: "Use $tool-integration-design to design this tool's external integration boundaries."

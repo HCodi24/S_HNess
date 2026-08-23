@@ -1,0 +1,18 @@
+{
+  "name": "s-hness-backend",
+  "version": "0.2.0",
+  "description": "Stack-neutral backend API, data, service, security, reliability, and verification skills for S_HNess.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "S_HNess Backend",
+    "shortDescription": "Design and verify backend services and data.",
+    "longDescription": "Adds stack-neutral guidance for explicit backend project structure, APIs, data ownership and migrations, service boundaries, security and reliability, and backend verification.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": "Help me design or verify a backend service."
+  }
+}

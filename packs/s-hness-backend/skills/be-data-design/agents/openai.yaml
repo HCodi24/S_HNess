@@ -1,0 +1,4 @@
+interface:
+  display_name: "BE Data Design"
+  short_description: "Design data ownership, schemas, and migrations."
+  default_prompt: "Use $be-data-design to design data ownership, invariants, and safe migration behavior."

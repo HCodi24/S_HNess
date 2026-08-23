@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Discover"
+  short_description: "Clarify goals, scope, constraints, and success."
+  default_prompt: "Use $s-discover to clarify this idea before planning."

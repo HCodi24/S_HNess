@@ -1,0 +1,4 @@
+interface:
+  display_name: "FE Architecture"
+  short_description: "Design frontend structure and dependency boundaries."
+  default_prompt: "Use $fe-architecture to design the frontend structure and dependency boundaries."

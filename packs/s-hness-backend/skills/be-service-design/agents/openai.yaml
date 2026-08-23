@@ -1,0 +1,4 @@
+interface:
+  display_name: "BE Service Design"
+  short_description: "Design backend services and workflow boundaries."
+  default_prompt: "Use $be-service-design to design the backend workflow and service boundaries."

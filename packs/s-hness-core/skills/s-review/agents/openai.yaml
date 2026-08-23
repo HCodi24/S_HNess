@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Review"
+  short_description: "Review changes for defects and operational risk."
+  default_prompt: "Use $s-review to review these changes without modifying them."

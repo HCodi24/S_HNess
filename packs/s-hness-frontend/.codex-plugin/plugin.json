@@ -1,0 +1,18 @@
+{
+  "name": "s-hness-frontend",
+  "version": "0.2.0",
+  "description": "Stack-neutral frontend architecture, UI, state, quality, and verification skills for S_HNess.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "S_HNess Frontend",
+    "shortDescription": "Design and verify accessible frontend experiences.",
+    "longDescription": "Adds stack-neutral guidance for explicit frontend project structure, interactive UI behavior, state and server-data flows, accessibility and performance quality, and frontend verification.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": "Help me design or verify a frontend experience."
+  }
+}

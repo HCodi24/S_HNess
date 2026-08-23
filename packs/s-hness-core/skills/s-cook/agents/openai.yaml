@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Cook"
+  short_description: "Orchestrate approved plans through delivery gates."
+  default_prompt: "Use $s-cook to execute this approved plan through verification and review gates."

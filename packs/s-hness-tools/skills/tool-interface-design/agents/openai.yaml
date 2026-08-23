@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tool Interface Design"
+  short_description: "Design clear interactions for software tools"
+  default_prompt: "Use $tool-interface-design to define this tool's interaction contract."

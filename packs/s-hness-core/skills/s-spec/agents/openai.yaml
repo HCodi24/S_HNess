@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Spec"
+  short_description: "Define behavior, interfaces, and acceptance criteria."
+  default_prompt: "Use $s-spec to define the behavior, interfaces, failures, and acceptance criteria for this request."

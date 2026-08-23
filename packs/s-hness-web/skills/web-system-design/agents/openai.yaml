@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web System Design"
+  short_description: "Design full-stack web architecture and boundaries."
+  default_prompt: "Use $web-system-design to design the full-stack boundaries for this web system."

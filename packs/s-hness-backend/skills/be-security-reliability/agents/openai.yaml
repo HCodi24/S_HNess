@@ -1,0 +1,4 @@
+interface:
+  display_name: "BE Security Reliability"
+  short_description: "Design backend security and operational resilience."
+  default_prompt: "Use $be-security-reliability to design security, resilience, and recovery for this backend."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "FE Quality"
+  short_description: "Guide accessibility, responsiveness, and performance."
+  default_prompt: "Use $fe-quality to define measurable accessibility, responsive, and performance requirements."

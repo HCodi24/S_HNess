@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Verify"
+  short_description: "Verify full-stack web behavior and quality."
+  default_prompt: "Use $web-verify to verify this full-stack web workflow with explicit evidence."

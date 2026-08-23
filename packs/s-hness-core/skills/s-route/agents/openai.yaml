@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Route"
+  short_description: "Route work to the right lifecycle and domain."
+  default_prompt: "Use $s-route to classify this request and select the right workflow."

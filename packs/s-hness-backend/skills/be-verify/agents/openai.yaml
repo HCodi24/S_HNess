@@ -1,0 +1,4 @@
+interface:
+  display_name: "BE Verify"
+  short_description: "Verify backend behavior and service boundaries."
+  default_prompt: "Use $be-verify to verify this backend behavior with explicit evidence."

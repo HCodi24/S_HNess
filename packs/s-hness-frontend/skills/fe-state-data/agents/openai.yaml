@@ -1,0 +1,4 @@
+interface:
+  display_name: "FE State Data"
+  short_description: "Design frontend state and server-data flows."
+  default_prompt: "Use $fe-state-data to design state ownership, caching, and recovery for this frontend."

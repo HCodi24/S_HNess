@@ -3,11 +3,13 @@
 Use this contract when a request must be classified before work begins.
 
 ```yaml
-phase: discover | spec | plan | cook | run | debug | verify | review | deliver
+phase: discover | spec | plan | cook | loop | run | control | test | debug | verify | review | deliver
 domains:
   - general | web | frontend | backend | tools | iot | multi | unresolved
 skills:
   - installed-skill-name
+capabilities:
+  - internal-domain-capability-id
 workspace: absolute-path | unresolved
 side_effect: none | workspace-write | external
 approval_required: true | false
@@ -25,11 +27,20 @@ assumptions:
 4. Use multiple domains only when the request crosses real responsibility boundaries.
 5. If a domain pack is unavailable, route through core and identify the missing specialization.
 
+`skills` identifies the public core skill that owns the next action. `capabilities` identifies the internal domain guidance that core should load for that action; it does not
+make an internal capability a separately invocable public skill. Use public `s-control` for live authorization and interaction requests; it delegates to `tools/ai-control-runtime`.
+
 Routing describes the next workflow. It never grants permission to execute it.
 
 Use `s-spec` after discovery when product behavior, interfaces, failures, constraints, and acceptance criteria must be defined. Route to domain design after the specification is stable, then use `s-plan`.
 
 Use `s-cook` when the user wants end-to-end execution of an approved multi-phase plan. Use `s-run` for one focused phase, increment, or change.
+
+Use `s-loop` when the user explicitly wants autonomous progression through an approved phase-based plan with implementation, deep testing, verification, and important progress/error logging. `s-loop` still stops on material failure, missing approval, unresolved scope, or unavailable required environment.
+
+Use `s-control` when the user wants AI to authorize, configure, attach to, or interact with a named app or website. It must obtain explicit approval immediately before activating the grant or performing live interaction, and it does not bypass host or OS permissions.
+
+Use `s-test` for a standalone, risk-based test workflow that defines test scope, compares material strategy choices, executes checks, triages failures, and records evidence. Use `s-verify` afterward when the results must be mapped to acceptance criteria for a lifecycle handoff.
 
 ## Installed domain mapping
 
@@ -63,6 +74,10 @@ For `tools`, choose the narrowest installed specialization:
 - `tool-integration-design` for SDK, API, file, OS, process, device, and host-application boundaries;
 - `tool-packaging-design` for build artifacts, installation, updates, migrations, rollback, and uninstall; and
 - `tool-delivery-verify` for source, behavior, integration, package, and delivery evidence.
+
+The complete phase/domain-to-capability mapping is maintained in
+[domain capabilities](./domain-capabilities.md). Use that registry instead of copying
+domain guidance into the core lifecycle skills.
 
 Combine a Web skill with the core phase rather than replacing it. For example, planning a new full-stack topology uses `s-plan` with `web-system-design`; executing the approved plan remains owned by `s-run`.
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Feedback"
+  short_description: "Record or fix feedback about the S_HNess harness."
+  default_prompt: "Use $s-feedback to record this harness issue or fix it when explicitly requested."

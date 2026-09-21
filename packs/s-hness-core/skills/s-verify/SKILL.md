@@ -9,6 +9,8 @@ Start from observable behavior, stable boundaries, and material failure modes. U
 
 Always apply the [verification gate](../../references/verification-gate.md) before assigning a final result.
 
+Before mapping evidence, use the [routing contract](../../references/routing-contract.md) and [domain capability registry](../../references/domain-capabilities.md) to select and read the matching internal verification capability. Keep core verification mandatory and report any capability or client-level evidence that remains unavailable.
+
 ## Verification record
 
 For every check report:

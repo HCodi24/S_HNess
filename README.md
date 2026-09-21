@@ -1,6 +1,6 @@
 # S_HNess
 
-`S_HNess` là harness kỹ thuật cá nhân được xây mới hoàn toàn. Hiện tại harness có lớp core và bốn domain pack độc lập: Web full-stack, Backend, Frontend và Tool Builder. IoT có thể được bổ sung ở giai đoạn sau.
+`S_HNess` là harness kỹ thuật cá nhân được xây mới hoàn toàn. Hiện tại harness có lớp core, các capability domain nội bộ (Web full-stack, Backend, Frontend và Tool Builder) cùng một plugin bảo trì cục bộ. IoT có thể được bổ sung ở giai đoạn sau.
 
 ## Cấu trúc
 
@@ -10,50 +10,80 @@ S_HNess/
 |-- README.md
 |-- packs/
 |   |-- s-hness-core/
-|   |-- s-hness-web/
-|   |-- s-hness-backend/
-|   |-- s-hness-frontend/
-|   `-- s-hness-tools/
+|   |   `-- references/domain/
+|   `-- s-hness-maintenance/
 `-- scripts/
     `-- validate-harness.ps1
 ```
 
-Mỗi pack có manifest `.codex-plugin/plugin.json`, các skill riêng và reference chuyên môn. Core sở hữu vòng đời chung; domain pack không lặp lại discovery, spec, plan, execution hay review.
+Core là plugin public duy nhất cung cấp lifecycle. Capability backend/frontend/web/tools nằm dưới `packs/s-hness-core/references/domain/` và được lifecycle skill tự route qua registry; chúng không còn là public skill entry độc lập. Plugin maintenance vẫn chỉ được dùng khi người dùng yêu cầu rõ.
 
 ## Core
 
 - `$s-route`: xác định phase, domain, workspace, side effect và bằng chứng cần có.
+- `$s-control`: cấp quyền, cấu hình và điều khiển một app/website cụ thể trong giới hạn người dùng phê duyệt.
 - `$s-discover`: làm rõ mục tiêu, phạm vi và tiêu chí thành công.
 - `$s-spec`: định nghĩa behavior, interface, failure và acceptance criteria có thể kiểm thử.
 - `$s-plan`: tạo kế hoạch triển khai đầy đủ quyết định.
 - `$s-cook`: điều phối plan nhiều phase qua run, verify và review gate.
+- `$s-loop`: tự động chạy từng phase, checkpoint/resume, test theo risk, repair có giới hạn và ghi log/artifacts.
 - `$s-run`: thực hiện một phase hoặc thay đổi tập trung.
+- `$s-test`: chạy quy trình test theo risk, phân loại lỗi và bàn giao bằng chứng.
 - `$s-verify`: kiểm chứng theo acceptance criteria.
 - `$s-review`: review chỉ đọc, ưu tiên lỗi và rủi ro.
 
-## Domain packs
+Core tự route domain theo yêu cầu. Ví dụ `$s-plan Xây màn hình quản lý đơn hàng có API và phân quyền` sẽ xác định phase `plan`, chọn capability frontend và backend phù hợp, rồi đọc guidance nội bộ tương ứng. Người dùng không cần biết hoặc gọi riêng tên `fe-*`, `be-*`, `web-*` hay `tool-*`. Gọi `$s-route` riêng chỉ khi muốn xem contract định tuyến.
+## Domain capabilities (internal)
 
-Web:
+Core tự route tới các capability sau khi phân tích yêu cầu; người dùng không cần gọi trực tiếp các tên này:
 
-- `$web-system-design`, `$web-integration`, `$web-deployment`, `$web-verify`.
+Web: `web-system-design`, `web-integration`, `web-deployment`, `web-verify`.
 
-Backend:
+Backend: `be-api-design`, `be-data-design`, `be-service-design`, `be-security-reliability`, `be-verify`.
 
-- `$be-api-design`, `$be-data-design`, `$be-service-design`, `$be-security-reliability`, `$be-verify`.
+Frontend: `fe-architecture`, `fe-ui`, `fe-state-data`, `fe-quality`, `fe-verify`.
 
-Frontend:
+Tool Builder: `tool-product-design`, `tool-interface-design`, `tool-integration-design`, `tool-packaging-design`, `tool-delivery-verify`, `ai-control-runtime`.
 
-- `$fe-architecture`, `$fe-ui`, `$fe-state-data`, `$fe-quality`, `$fe-verify`.
+Source của các capability nằm trong `packs/s-hness-core/references/domain/` và được ánh xạ bởi `domain-capabilities.md`.
 
-Tool Builder:
+`ai-control-runtime` là capability chung để thiết kế runtime cho AI tương tác với app/web qua API, CLI, MCP, browser automation hoặc desktop control. Automated testing là một workflow chính; runtime source và profile của từng project sẽ được tạo ở giai đoạn sau.
 
-- `$tool-product-design`: chọn loại tool, kiến trúc runtime và cấu trúc project.
-- `$tool-interface-design`: thiết kế giao diện CLI, TUI, desktop, chat, plugin, add-in hoặc automation.
-- `$tool-integration-design`: thiết kế boundary với SDK, API, file, OS, process, device hoặc ứng dụng host.
-- `$tool-packaging-design`: thiết kế build, package, cài đặt, update, migration, rollback và uninstall.
-- `$tool-delivery-verify`: kiểm chứng source, behavior, integration, package và vòng đời bàn giao.
+`s-control` là entrypoint người dùng gọi để cấp quyền và bắt đầu tương tác với một target cụ thể. Skill này tạo hoặc cập nhật profile trong project đích, nhưng chỉ kích hoạt grant/attach/live action sau khi người dùng phê duyệt rõ ràng. `ai-control-runtime` vẫn là lớp contract và thực thi phía sau, không phải profile của từng app.
+## Maintenance
 
-Tool Builder hỗ trợ theo hướng stack-neutral cho CLI, TUI, desktop, chat tool, plugin/add-in, automation worker, library và service tool.
+- `$s-reinstall`: preflight, staging, cachebuster, validation, backup, reinstall và rollback plugin S_HNess cục bộ bằng một script deterministic.
+
+Luồng này chỉ chạy khi người dùng yêu cầu rõ plugin cần refresh. Skill phải dry-run trước, báo source–target–backup và xin xác nhận ngay trước khi ghi ngoài repository. Backup được giữ lại mặc định; không sửa tay marketplace hoặc cấu hình Codex.
+
+Máy đã cài các plugin S_HNess trước khi có plugin maintenance cần bootstrap thủ công đúng một lần:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$HarnessRoot = 'C:\harness\S_HNess'
+$UserRoot = [Environment]::GetFolderPath('UserProfile')
+$PluginRoot = Join-Path $UserRoot 'plugins'
+$PluginName = 's-hness-maintenance'
+$Source = Join-Path $HarnessRoot "packs\$PluginName"
+$Target = Join-Path $PluginRoot $PluginName
+$HelperRoot = Join-Path $UserRoot '.codex\skills\.system\plugin-creator\scripts'
+
+if (Test-Path -LiteralPath $Target) {
+    throw "Plugin đã tồn tại, không ghi đè: $Target"
+}
+
+python (Join-Path $HelperRoot 'create_basic_plugin.py') $PluginName --path $PluginRoot --with-marketplace
+if ($LASTEXITCODE -ne 0) { throw 'Không tạo được plugin/marketplace entry.' }
+Get-ChildItem -LiteralPath $Source -Force | Copy-Item -Destination $Target -Recurse -Force
+python (Join-Path $HelperRoot 'update_plugin_cachebuster.py') $Target
+if ($LASTEXITCODE -ne 0) { throw 'Không cập nhật được cachebuster.' }
+python (Join-Path $HelperRoot 'validate_plugin.py') $Target
+if ($LASTEXITCODE -ne 0) { throw 'Plugin maintenance không hợp lệ.' }
+codex plugin add "$PluginName@personal"
+if ($LASTEXITCODE -ne 0) { throw 'Không cài được plugin maintenance.' }
+```
+
+Sau khi bootstrap, mở thread mới và dùng `$s-reinstall`; không lặp lại block bootstrap để cập nhật plugin đã tồn tại.
 
 ## Structure gate
 
@@ -77,16 +107,18 @@ $s-discover -> $s-spec -> domain design -> $s-plan -> $s-cook
 
 ### Quy tắc bắt buộc của plan
 
-Mỗi lần `$s-plan` được gọi hoặc được router chọn cho yêu cầu planning, harness phải tạo hoặc cập nhật `plan.md` ngay tại root của workspace dự án hiện tại. Sau khi ghi, harness phải đọc lại file và trả về đường dẫn tuyệt đối; nếu không ghi hoặc không đọc lại được thì planning chưa hoàn thành.
+Mỗi chủ đề planning độc lập phải có artifact riêng tại `plans/<topic-slug>.md` trong workspace dự án hiện tại. Tên file dùng slug ngắn, ổn định và phản ánh chủ đề, ví dụ `plans/image-to-cad.md`. Harness chỉ cập nhật plan cũ khi người dùng nêu đúng path hoặc yêu cầu rõ tiếp tục plan đã xác định trong hội thoại; không nối chủ đề mới vào `plan.md` chỉ vì file đó đã tồn tại.
 
-`/plan` là slash command native dùng để chuyển Codex sang Plan Mode. Nó không thể bị plugin đổi thành một slash command khác. Khi đã vào `/plan`, yêu cầu planning tiếp theo phải áp dụng workflow `$s-plan` để tạo `plan.md`:
+`/plan` là slash command native dùng để chuyển Codex sang Plan Mode. Nó không thể bị plugin đổi thành một slash command khác. Khi đã vào `/plan`, yêu cầu planning tiếp theo vẫn phải áp dụng workflow `$s-plan` để tạo plan theo chủ đề:
 
 ```text
 /plan
 $s-plan tools Lên kế hoạch xây CLI cho dự án hiện tại.
 ```
 
-Không cần yêu cầu thêm “hãy lưu file”. Việc gọi `$s-plan` đã cho phép tạo hoặc cập nhật duy nhất `plan.md`; nó không cho phép sửa source sản phẩm.
+Không cần yêu cầu thêm “hãy lưu file”. Việc gọi `$s-plan` chỉ cho phép tạo hoặc cập nhật plan artifact đã chọn; nó không cho phép sửa source sản phẩm. Sau khi ghi, harness phải đọc lại file và trả về đường dẫn tuyệt đối. Nếu slug trùng một plan không liên quan, harness phải chọn slug cụ thể hơn thay vì ghi đè.
+
+`plan.md` cũ vẫn có thể được dùng khi người dùng chỉ rõ path đó. Khi có nhiều plan và người dùng chưa chọn, `$s-cook` phải hỏi path thay vì tự chọn file mới nhất hoặc file có tên gần giống.
 
 Ví dụ xây một tool:
 
@@ -94,8 +126,8 @@ Ví dụ xây một tool:
 $s-spec tools Đặc tả một CLI đồng bộ dữ liệu có chế độ chạy tự động.
 $tool-product-design Chọn loại tool, kiến trúc và cây thư mục cho CLI này.
 $tool-interface-design Thiết kế command, help, exit code và JSON output.
-$s-plan tools Lên kế hoạch triển khai CLI theo đặc tả đã duyệt và tạo plan.md tại root dự án.
-$s-cook C:\du-an\plan.md
+$s-plan tools Lên kế hoạch triển khai CLI theo đặc tả đã duyệt và tạo plans/cli-dong-bo-du-lieu.md.
+$s-cook C:\du-an\plans\cli-dong-bo-du-lieu.md
 ```
 
 Ví dụ các domain khác:
@@ -145,10 +177,7 @@ $Cachebuster = Join-Path $HelperRoot 'update_plugin_cachebuster.py'
 $Validator = Join-Path $HelperRoot 'validate_plugin.py'
 $PluginNames = @(
     's-hness-core',
-    's-hness-web',
-    's-hness-backend',
-    's-hness-frontend',
-    's-hness-tools'
+    's-hness-maintenance'
 )
 
 foreach ($RequiredPath in @($Creator, $Cachebuster, $Validator)) {
@@ -193,10 +222,7 @@ Kết quả mong đợi trong marketplace `personal`:
 
 ```text
 s-hness-core       installed, enabled
-s-hness-web        installed, enabled
-s-hness-backend    installed, enabled
-s-hness-frontend   installed, enabled
-s-hness-tools      installed, enabled
+s-hness-maintenance installed, enabled
 ```
 
 Marketplace cá nhân được Codex quản lý tại `%USERPROFILE%\.agents\plugins\marketplace.json`; không cần chạy `codex plugin marketplace add` và không sửa file này bằng tay.
@@ -206,6 +232,7 @@ Sau khi cài xong, mở một thread Codex mới để nạp các skill. Có th�
 ```text
 $s-route Lên kế hoạch xây một CLI quản lý file.
 $s-plan tools Lên kế hoạch xây một CLI quản lý file.
+$s-reinstall s-hness-core.
 ```
 
 ## Kiểm tra harness

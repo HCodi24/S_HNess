@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Test"
+  short_description: "Run risk-based tests and report evidence."
+  default_prompt: "Use $s-test to run a risk-based test workflow and report trustworthy evidence."

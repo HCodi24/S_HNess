@@ -1,0 +1,18 @@
+{
+  "name": "s-hness-maintenance",
+  "version": "0.1.0",
+  "description": "Safely reinstall local S_HNess plugins from canonical harness source.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "S_HNess Maintenance",
+    "shortDescription": "Stage, validate, reinstall, and roll back local S_HNess plugins.",
+    "longDescription": "Provides a deterministic, approval-gated workflow for refreshing installed S_HNess plugins from canonical source with staging, validation, backup, rollback, and installation evidence.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": "Use s-reinstall to safely refresh an installed S_HNess plugin."
+  }
+}

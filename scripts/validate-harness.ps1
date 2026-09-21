@@ -23,6 +23,34 @@ foreach ($manifestPath in $manifestPaths) {
     }
 }
 
+$allowedPublicPlugins = @('s-hness-core', 's-hness-maintenance')
+foreach ($manifestPath in $manifestPaths) {
+    $manifest = Get-Content -Raw -LiteralPath $manifestPath.FullName -Encoding UTF8 | ConvertFrom-Json
+    if ($manifest.name -notin $allowedPublicPlugins) {
+        $errors.Add("Unexpected public plugin manifest: $($manifestPath.FullName)")
+    }
+}
+
+$coreRoot = Join-Path $harnessRoot 'packs\s-hness-core'
+$registryPath = Join-Path $coreRoot 'references\domain-capabilities.md'
+if (-not (Test-Path -LiteralPath $registryPath -PathType Leaf)) {
+    $errors.Add("Missing domain capability registry: $registryPath")
+}
+
+$expectedCapabilities = @{
+    backend = @('be-api-design', 'be-data-design', 'be-service-design', 'be-security-reliability', 'be-verify')
+    frontend = @('fe-architecture', 'fe-ui', 'fe-state-data', 'fe-quality', 'fe-verify')
+    web = @('web-system-design', 'web-integration', 'web-deployment', 'web-verify')
+    tools = @('tool-product-design', 'tool-interface-design', 'tool-integration-design', 'tool-packaging-design', 'tool-delivery-verify', 'ai-control-runtime')
+}
+foreach ($domain in $expectedCapabilities.Keys) {
+    foreach ($capability in $expectedCapabilities[$domain]) {
+        $capabilityPath = Join-Path $coreRoot "references\domain\$domain\skills\$capability\SKILL.md"
+        if (-not (Test-Path -LiteralPath $capabilityPath -PathType Leaf)) {
+            $errors.Add("Missing internal domain capability: $capabilityPath")
+        }
+    }
+}
 foreach ($skillPath in $skillPaths) {
     $content = Get-Content -Raw -LiteralPath $skillPath.FullName
     if ($content -match '\[TODO:|\bTODO\b') {
@@ -48,6 +76,16 @@ foreach ($skillPath in $skillPaths) {
     }
 }
 
+$markdownPaths = Get-ChildItem -LiteralPath (Join-Path $harnessRoot 'packs') -Filter *.md -File -Recurse
+foreach ($markdownPath in $markdownPaths) {
+    $content = Get-Content -Raw -LiteralPath $markdownPath.FullName -Encoding UTF8
+    foreach ($match in [regex]::Matches($content, '\[[^\]]+\]\(([^)]+\.md)\)')) {
+        $target = Join-Path $markdownPath.DirectoryName $match.Groups[1].Value
+        if (-not (Test-Path -LiteralPath $target)) {
+            $errors.Add("Broken Markdown link in $($markdownPath.FullName): $($match.Groups[1].Value)")
+        }
+    }
+}
 if ($manifestPaths.Count -eq 0) { $errors.Add('No plugin manifests found.') }
 if ($skillPaths.Count -eq 0) { $errors.Add('No skills found.') }
 

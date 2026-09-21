@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Control"
+  short_description: "Authorize and control an approved app or website."
+  default_prompt: "Use $s-control to authorize and interact with a named app or website within explicit limits."

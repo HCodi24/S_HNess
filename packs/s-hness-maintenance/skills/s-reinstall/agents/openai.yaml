@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Reinstall"
+  short_description: "Safely refresh installed S_HNess plugins."
+  default_prompt: "Use $s-reinstall to stage, validate, and reinstall the requested S_HNess plugins."

@@ -4,24 +4,22 @@ This repository is an instruction harness for engineering work. It is not a prod
 
 ## Routing
 
-Use `packs/s-hness-core` as the domain-neutral outer layer. Add `packs/s-hness-backend` for server and data responsibilities, `packs/s-hness-frontend` for client experience responsibilities, `packs/s-hness-web` when work crosses those boundaries, and `packs/s-hness-tools` for software-tool product and delivery concerns.
+Use `packs/s-hness-core` as the public domain-neutral outer layer. Core routes to internal backend, frontend, web, and tools capabilities under `packs/s-hness-core/references/domain/`, including `tools/ai-control-runtime` for AI-controlled app/web interaction. Use public `s-control` for explicit app/website authorization and live interaction requests. Use `packs/s-hness-maintenance` only for explicitly requested local S_HNess plugin maintenance.
 
 - Explicit skill invocation takes precedence.
 - Use `s-route` when phase or domain is unclear.
 - Use core lifecycle skills for general work.
 - Use `s-spec` to define required behavior and acceptance criteria before domain design and `s-plan`.
-- Every `s-plan` workflow must write or update `plan.md` at the current target workspace root and read it back before reporting completion. A planning request after native `/plan` mode should follow the same workflow.
+- Every `s-plan` workflow must create `plans/<topic-slug>.md` for a new independent topic, or update an exact existing plan only when the user identifies or explicitly continues it. It must read the selected file back before reporting completion. Never append a new topic to root `plan.md` merely because that file exists. A planning request after native `/plan` mode follows the same workflow.
 - Use `s-cook` only for an approved multi-phase plan; use `s-run` for one focused execution phase.
-- Load `s-hness-backend` for API, persistence, service, backend security/reliability, or backend verification work.
-- Load `s-hness-frontend` for frontend architecture, UI behavior, client state/data, accessibility/performance, or frontend verification work.
-- Load `s-hness-web` for full-stack architecture, frontend-backend integration, web deployment design, or end-to-end web verification.
-- Load `s-hness-tools` for CLI, TUI, desktop, chat, plugin, add-in, automation, library, or service-tool architecture, interface, external integrations, packaging, or delivery verification.
+- Let core load the narrowest internal domain capability for API, persistence, service, frontend, web, or software-tool responsibilities using the domain capability registry.
+- Load `s-hness-maintenance` only when the user explicitly requests a local S_HNess plugin reinstall or refresh. Use its deterministic script instead of reconstructing the filesystem and Codex CLI workflow manually.
 - Do not route isolated visual/frontend work or backend-only service work to the Web pack when a narrower domain owns it.
-- Load any future domain pack only when the request needs that specialization.
+- Add future domain guidance under the core capability registry only when the request needs that specialization.
 - For multi-domain work, load only the packs that own an actual responsibility.
 - When tool source is created or reorganized, include `tool-product-design` to define the project tree, directory responsibilities, and dependency direction.
 
-Domain packs must extend the core lifecycle rather than duplicate discovery, planning, execution, verification, or review.
+Internal domain capabilities must extend the core lifecycle rather than duplicate discovery, planning, execution, verification, or review.
 
 ## Side effects
 

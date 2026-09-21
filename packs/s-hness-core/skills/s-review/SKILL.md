@@ -7,6 +7,8 @@ description: Review engineering changes for correctness, regressions, interface 
 
 Inspect the specification, plan, relevant changes, tests, and repository instructions. Focus on defects introduced by the reviewed work and trace findings to observable impact.
 
+Before reviewing, use the [routing contract](../../references/routing-contract.md) and [domain capability registry](../../references/domain-capabilities.md) to identify and read the narrowest matching internal domain guidance. Review the integrated change against both core lifecycle rules and that selected capability; do not expand scope based on unrelated domain packs.
+
 ## Output
 
 List findings first, ordered by severity. Each finding must include:

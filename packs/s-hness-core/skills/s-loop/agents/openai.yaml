@@ -1,0 +1,4 @@
+interface:
+  display_name: "S Loop"
+  short_description: "Run plan phases, test deeply, and log progress."
+  default_prompt: "Use $s-loop to execute this approved plan phase by phase, test each increment, and log important progress and errors."

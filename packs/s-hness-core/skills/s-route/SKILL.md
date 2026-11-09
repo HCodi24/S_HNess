@@ -1,6 +1,6 @@
 ---
 name: s-route
-description: Route an engineering request to the correct lifecycle phase and optional domain pack before planning or execution. Use when the right workflow is unclear; do not perform the routed work itself.
+description: Route an engineering request to the correct lifecycle phase and internal domain capabilities before planning or execution. Use when the right workflow is unclear; do not perform the routed work itself.
 ---
 
 # S Route
@@ -10,9 +10,9 @@ Classify the request without changing the target workspace.
 ## Routing rules
 
 1. Honor an explicitly invoked skill or domain unless it conflicts with the request.
-2. Select one lifecycle or control phase: `discover`, `plan`, `loop`, `run`, `control`, `test`, `debug`, `verify`, `review`, or `deliver`.
-3. Select the narrowest applicable domain. Use `general` when no installed domain pack is required and `multi` only when responsibilities genuinely cross domains.
-4. Recommend only installed skills. If a useful domain pack is unavailable, keep the core workflow and report the missing specialization.
+2. Select one lifecycle or control phase: `discover`, `spec`, `plan`, `cook`, `loop`, `run`, `control`, `test`, `debug`, `verify`, `review`, or `deliver`.
+3. Select the narrowest applicable domain. Use `general` when no internal domain capability is required and `multi` only when responsibilities genuinely cross domains.
+4. Recommend only public core skills in `skills` and registered internal capability IDs in `capabilities`. If no registered capability owns the work, keep the core workflow and report the missing specialization.
 5. Ask a question only when the unresolved choice would materially change scope, risk, or output.
 
 Do not interpret routing as authorization to write files, call external systems, install software, publish, or deploy.

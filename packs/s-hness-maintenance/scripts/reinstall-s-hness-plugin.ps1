@@ -6,7 +6,7 @@ param(
     [string[]]$PluginName,
 
     [ValidateNotNullOrEmpty()]
-    [string]$CanonicalRoot = 'C:\harness\S_HNess'
+    [string]$CanonicalRoot = $(if ($env:S_HNESS_ROOT) { $env:S_HNESS_ROOT } else { 'C:\GitHub\S_HNess' })
 )
 
 Set-StrictMode -Version Latest

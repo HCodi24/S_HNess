@@ -1,6 +1,6 @@
 {
   "name": "s-hness-maintenance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Safely reinstall local S_HNess plugins from canonical harness source.",
   "author": {
     "name": "Local developer"

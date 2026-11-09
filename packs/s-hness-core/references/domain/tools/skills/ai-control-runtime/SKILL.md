@@ -34,4 +34,4 @@ Read the directly relevant references before making a design or implementation d
 
 Unattended execution means pre-approved bounded execution, not unrestricted authority. Destructive actions, publishing, external data transfer, closing unsaved work, credential use, and policy changes require an explicit project policy and approval boundary. Fail closed when authorization or state is ambiguous.
 
-Keep platform SDK types, process handles, browser objects, and computer-use details inside adapters. Keep project-specific profiles in the consuming project under `.s-hness/`, never in the harness.
+Keep platform SDK types, process handles, browser objects, and computer-use details inside adapters. Keep project-specific profiles in the consuming project root (or another project-owned path the user selects), following the project's existing conventions as described in [runtime project config](../../references/ai-control-runtime/runtime-project-config.md); a `.s-hness/` directory is optional and must not be required. Never place them in the harness.

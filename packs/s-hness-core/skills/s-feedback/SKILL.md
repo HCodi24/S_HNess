@@ -9,7 +9,7 @@ Handle feedback about S_HNess itself without confusing the current product works
 
 ## Canonical source
 
-The canonical harness root on this machine is `C:\harness\S_HNess`. Confirm that this directory contains both `README.md` and `packs/s-hness-core/.codex-plugin/plugin.json` before writing. If it moved or cannot be accessed, stop and ask for its new root. Never treat an installed plugin directory or plugin cache as canonical source.
+Resolve the canonical harness root in this order: a root the user explicitly supplies, the `S_HNESS_ROOT` environment variable, then the default `C:\GitHub\S_HNess`. Confirm that this directory contains both `README.md` and `packs/s-hness-core/.codex-plugin/plugin.json` before writing. If it moved or cannot be accessed, stop and ask for its new root. Never treat an installed plugin directory or plugin cache as canonical source.
 
 ## Choose a mode
 

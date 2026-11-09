@@ -9,7 +9,7 @@ Refresh installed S_HNess plugins without reconstructing filesystem or Codex CLI
 
 ## Boundaries
 
-Use `C:\harness\S_HNess` as the canonical root unless the user explicitly supplies another root. The deterministic script is [reinstall-s-hness-plugin.ps1](../../scripts/reinstall-s-hness-plugin.ps1). It may read canonical source, the personal marketplace, installed plugin source, system `plugin-creator` helpers, and Codex CLI state.
+Resolve the canonical root in this order: a root the user explicitly supplies, the `S_HNESS_ROOT` environment variable, then the default `C:\GitHub\S_HNess`. Stop and ask when the resolved root does not exist. The deterministic script is [reinstall-s-hness-plugin.ps1](../../scripts/reinstall-s-hness-plugin.ps1). It may read canonical source, the personal marketplace, installed plugin source, system `plugin-creator` helpers, and Codex CLI state.
 
 The mutation boundary is limited to staging, backing up, and replacing explicitly named plugin directories under the current user's `plugins` directory, then running `codex plugin add`. A request to reinstall does not authorize deleting retained backups, changing marketplace configuration by hand, committing, publishing, or modifying unrelated plugins.
 
@@ -24,7 +24,7 @@ The mutation boundary is limited to staging, backing up, and replacing explicitl
 Dry-run command:
 
 ```powershell
-& <plugin-root>\scripts\reinstall-s-hness-plugin.ps1 -PluginName s-hness-core, s-hness-tools -CanonicalRoot C:\harness\S_HNess -WhatIf
+& <plugin-root>\scripts\reinstall-s-hness-plugin.ps1 -PluginName s-hness-core, s-hness-maintenance -CanonicalRoot <canonical-root> -WhatIf
 ```
 
 After approval, remove `-WhatIf` and add `-Confirm:$false`.

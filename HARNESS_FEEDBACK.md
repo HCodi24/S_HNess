@@ -36,6 +36,18 @@ Mỗi mục trong `## Đã xử lý` phải kết thúc bằng dòng `Done`.
 
 Khi hoàn tất một mục, chuyển mục đó xuống đây và ghi ngắn gọn thay đổi cùng bằng chứng kiểm tra.
 
+### Đồng bộ tài liệu sau khi chuyển domain thành capability nội bộ
+
+- Ngày feedback: 2026-11-09
+- Dự án nguồn: `C:\GitHub\S_HNess`
+- Hiện trạng: Bảng phase mapping trong `domain-capabilities.md` bị chen đoạn văn; `ai-control-runtime` bắt buộc `.s-hness/` trái với `s-control`; root canonical hard-code `C:\harness\S_HNess` không tồn tại; README gọi `$tool-*`/`$be-*`/`$fe-*` như skill public; thuật ngữ `installed domain pack` còn sót; `s-route` thiếu phase `spec`, `cook`; `s-reinstall` ví dụ plugin `s-hness-tools` không tồn tại; validator chỉ báo lỗi đầu tiên.
+- Mong đợi: Tài liệu và skill nhất quán với mô hình capability nội bộ; root canonical cấu hình được; validator bắt các lỗi này và báo toàn bộ lỗi.
+- Bằng chứng/tái hiện: Rà soát tài liệu/skill sau khi chuyển domain thành capability nội bộ cho thấy các bất nhất trên; validator trước sửa chỉ hiển thị lỗi đầu tiên.
+- Skill/pack ảnh hưởng: `s-hness-core` (`domain-capabilities`, `routing-contract`, `s-route`, `s-cook`, `s-plan`, `s-run`, `s-feedback`, `ai-control-runtime`), `s-hness-maintenance` (`s-reinstall`, reinstall script), `scripts/validate-harness.ps1`, `README.md`, `AGENTS.md`.
+- Thay đổi: Root resolution theo thứ tự root người dùng chỉ định → `S_HNESS_ROOT` → `C:\GitHub\S_HNess`; thêm bốn kiểm tra cho bảng Markdown bị ngắt, gọi capability như skill public, hard-code sai harness root và phase thiếu trong `s-route`; validator báo tất cả lỗi; tăng patch version hai plugin.
+- Kiểm tra: verified; lệnh `powershell -ExecutionPolicy Bypass -File .\scripts\validate-harness.ps1` exit code 0; output: `Validated 2 plugin manifest(s) and 33 skill(s).`
+Done
+
 ### Tách phase rõ ràng giữa spec, plan và cook
 
 - Ngày feedback: 2026-08-25

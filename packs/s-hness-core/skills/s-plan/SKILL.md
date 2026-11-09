@@ -15,7 +15,7 @@ Before planning, use the [routing contract](../../references/routing-contract.md
 - required architecture or domain-design decisions;
 - existing repository conventions and instructions;
 - environment and integration constraints; and
-- installed domain guidance relevant to the request.
+- internal domain capability guidance relevant to the request.
 
 Inspect discoverable facts before asking the user. Preserve existing architecture unless a concrete requirement justifies change.
 

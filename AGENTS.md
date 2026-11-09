@@ -1,6 +1,6 @@
 # S_HNess Instructions
 
-This repository is an instruction harness for engineering work. It is not a product repository. Keep generated product source, plans, tests, reports, datasets, models, and build outputs in the user-designated target workspace.
+This repository is an instruction harness for engineering work. It is not a product repository. Keep generated product source, plans, tests, reports, datasets, models, and build outputs in the user-designated target workspace. The only exception is work on the harness itself: plans for changing S_HNess belong in this repository's `plans/<topic-slug>.md`, and harness feedback belongs in `HARNESS_FEEDBACK.md`.
 
 ## Routing
 

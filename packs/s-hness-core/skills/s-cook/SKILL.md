@@ -16,7 +16,7 @@ For every phase, resolve the narrowest domain and internal capability IDs from t
 - approved plan or explicit plan path;
 - target workspace and repository instructions;
 - current changes, dependencies, test commands, and environment prerequisites; and
-- relevant installed domain skills for each phase.
+- relevant internal domain capabilities for each phase.
 
 Reject or route back to `s-plan` when the selected plan lacks explicit phase boundaries, phase-level acceptance/verification, entry/exit conditions, or stopping gates. Do not reinterpret a monolithic plan as phase work during cook.
 

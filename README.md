@@ -31,6 +31,9 @@ Core là plugin public duy nhất cung cấp lifecycle. Capability backend/front
 - `$s-test`: chạy quy trình test theo risk, phân loại lỗi và bàn giao bằng chứng.
 - `$s-verify`: kiểm chứng theo acceptance criteria.
 - `$s-review`: review chỉ đọc, ưu tiên lỗi và rủi ro.
+- `$s-feedback`: ghi lại hành vi không mong muốn của harness vào `HARNESS_FEEDBACK.md` (mặc định), hoặc sửa tập trung source harness khi được yêu cầu rõ.
+
+Root harness canonical được xác định theo thứ tự: đường dẫn người dùng chỉ định, biến môi trường `S_HNESS_ROOT`, rồi mặc định `C:\GitHub\S_HNess`. Đặt `S_HNESS_ROOT` nếu clone harness ở vị trí khác.
 
 Core tự route domain theo yêu cầu. Ví dụ `$s-plan Xây màn hình quản lý đơn hàng có API và phân quyền` sẽ xác định phase `plan`, chọn capability frontend và backend phù hợp, rồi đọc guidance nội bộ tương ứng. Người dùng không cần biết hoặc gọi riêng tên `fe-*`, `be-*`, `web-*` hay `tool-*`. Gọi `$s-route` riêng chỉ khi muốn xem contract định tuyến.
 ## Domain capabilities (internal)
@@ -60,7 +63,7 @@ Máy đã cài các plugin S_HNess trước khi có plugin maintenance cần boo
 
 ```powershell
 $ErrorActionPreference = 'Stop'
-$HarnessRoot = 'C:\harness\S_HNess'
+$HarnessRoot = (Get-Location).Path  # chạy tại root S_HNess
 $UserRoot = [Environment]::GetFolderPath('UserProfile')
 $PluginRoot = Join-Path $UserRoot 'plugins'
 $PluginName = 's-hness-maintenance'
@@ -95,7 +98,7 @@ Khi tạo mới, tái cấu trúc hoặc mở rộng source đáng kể, plan ph
 - vị trí entry point, source, integration, configuration, packaging và test;
 - lý do khi thay đổi convention hiện có.
 
-Backend dùng `$be-service-design`, Frontend dùng `$fe-architecture`, và Tool Builder dùng `$tool-product-design` để quản lý structure gate. Không tạo thư mục rỗng hoặc layer không có trách nhiệm rõ ràng.
+Core tự nạp capability nội bộ `be-service-design` cho Backend, `fe-architecture` cho Frontend và `tool-product-design` cho Tool Builder để quản lý structure gate. Không tạo thư mục rỗng hoặc layer không có trách nhiệm rõ ràng.
 
 ## Cách dùng
 
@@ -124,9 +127,7 @@ Ví dụ xây một tool:
 
 ```text
 $s-spec tools Đặc tả một CLI đồng bộ dữ liệu có chế độ chạy tự động.
-$tool-product-design Chọn loại tool, kiến trúc và cây thư mục cho CLI này.
-$tool-interface-design Thiết kế command, help, exit code và JSON output.
-$s-plan tools Lên kế hoạch triển khai CLI theo đặc tả đã duyệt và tạo plans/cli-dong-bo-du-lieu.md.
+$s-plan tools Lên kế hoạch triển khai CLI theo đặc tả đã duyệt (loại tool, kiến trúc, cây thư mục, command, exit code, JSON output) và tạo plans/cli-dong-bo-du-lieu.md.
 $s-cook C:\du-an\plans\cli-dong-bo-du-lieu.md
 ```
 
@@ -243,4 +244,4 @@ Chạy từ root `S_HNess`:
 powershell -ExecutionPolicy Bypass -File .\scripts\validate-harness.ps1
 ```
 
-Script kiểm tra manifest, strict semver, frontmatter, tên skill trùng, placeholder và liên kết Markdown nội bộ.
+Script kiểm tra manifest, strict semver, frontmatter, tên skill trùng, placeholder, liên kết Markdown nội bộ, bảng Markdown bị chen văn bản không phải bảng, gọi capability nội bộ như skill public (`$<capability>`), đường dẫn harness root hard-code khác mặc định `C:\GitHub\S_HNess`, phase trong routing contract bị thiếu trong `s-route`, và báo cáo tất cả lỗi trong một lượt.

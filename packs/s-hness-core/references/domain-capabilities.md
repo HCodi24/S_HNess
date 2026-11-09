@@ -30,8 +30,7 @@ Each relocated capability retains its original sibling `references/` directory, 
 | spec | backend, frontend, web, or tools | Select the capability needed to define the relevant behavior and failure boundary. |
 | plan | backend, frontend, web, or tools | Select the capability needed to make the implementation structure and verification decision-complete. |
 | run | backend, frontend, web, or tools | Select the implementation-relevant capability; add structure guidance when source is created or reorganized. |
-
-AI-controlled app/web workflows select `tools/ai-control-runtime` in addition to any narrower tool capability needed for product form, interface, integration, packaging, or delivery verification.
+| debug | backend, frontend, web, or tools | Select the matching domain verification capability for failure triage; any fix then follows the `run` mapping. |
 | test | backend, frontend, web, or tools | Select the matching domain verification capability and retain the core test workflow. |
 | cook | backend, frontend, web, or tools | Resolve capabilities per child phase; do not preload unrelated domain guidance. |
 | loop | backend, frontend, web, or tools | Resolve capabilities for the current bounded phase; keep loop controls in core. |
@@ -39,6 +38,8 @@ AI-controlled app/web workflows select `tools/ai-control-runtime` in addition to
 | review | backend, frontend, web, or tools | Select the matching domain guidance for correctness and operational-risk review. |
 | deliver | tools | Select tool packaging and delivery verification capabilities when tool delivery is in scope. |
 | reinstall/refresh | maintenance | Load maintenance only when the user explicitly requests local S_HNess plugin maintenance. |
+
+AI-controlled app/web workflows select `tools/ai-control-runtime` in addition to any narrower tool capability needed for product form, interface, integration, packaging, or delivery verification.
 
 ## Selection rules
 

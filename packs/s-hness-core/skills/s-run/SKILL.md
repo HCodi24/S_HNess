@@ -21,7 +21,7 @@ Follow [execution policy](../../references/execution-policy.md) and [artifact po
 
 ## Source structure gate
 
-Before creating, moving, or materially reorganizing source code, inspect the current project tree and apply the relevant installed architecture or project-structure guidance for the domain. Preserve coherent language, framework, and repository conventions. Place every new file in a directory with a clear responsibility, keep dependency direction consistent, and keep entry points, domain behavior, external adapters, configuration, generated output, and tests in their owned boundaries.
+Before creating, moving, or materially reorganizing source code, inspect the current project tree and apply the relevant internal architecture or project-structure capability guidance for the domain. Preserve coherent language, framework, and repository conventions. Place every new file in a directory with a clear responsibility, keep dependency direction consistent, and keep entry points, domain behavior, external adapters, configuration, generated output, and tests in their owned boundaries.
 
 Prefer the smallest maintainable structure for the actual project. Do not create speculative or empty layers, place source opportunistically at the repository root, or turn generic `utils`, `helpers`, or `shared` directories into catchalls. Split files and directories when responsibilities or dependency boundaries differ, not merely to satisfy a fixed template.
 

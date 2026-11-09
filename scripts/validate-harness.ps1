@@ -86,11 +86,66 @@ foreach ($markdownPath in $markdownPaths) {
         }
     }
 }
+$docPaths = @($markdownPaths) + @(Get-ChildItem -LiteralPath $harnessRoot -Filter *.md -File)
+$scriptPaths = Get-ChildItem -LiteralPath (Join-Path $harnessRoot 'packs') -Filter *.ps1 -File -Recurse
+$internalCapabilityNames = $expectedCapabilities.Values | ForEach-Object { $_ }
+$defaultCanonicalRoot = 'C:\GitHub\S_HNess'
+
+foreach ($docPath in $docPaths) {
+    $lines = Get-Content -LiteralPath $docPath.FullName -Encoding UTF8
+    $inFence = $false
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $line = $lines[$i]
+        if ($line -match '^\s*```') { $inFence = -not $inFence; continue }
+        if ($inFence) { continue }
+        # A table row must follow a blank line (table start) or another table row.
+        if ($i -gt 0 -and $line -match '^\|' -and $lines[$i - 1] -notmatch '^\s*$' -and $lines[$i - 1] -notmatch '^\|') {
+            $errors.Add("Markdown table interrupted by non-table text at $($docPath.FullName):$($i + 1)")
+        }
+    }
+    if ($docPath.Name -eq 'HARNESS_FEEDBACK.md') { continue }
+    $content = Get-Content -Raw -LiteralPath $docPath.FullName -Encoding UTF8
+    foreach ($capability in $internalCapabilityNames) {
+        if ($content -match ('\$' + [regex]::Escape($capability) + '\b')) {
+            $errors.Add("Internal capability invoked as a public skill '`$$capability' in $($docPath.FullName)")
+        }
+    }
+}
+
+# Hard-coded harness roots must match the documented default.
+foreach ($path in @($docPaths) + @($scriptPaths)) {
+    if ($path.Name -eq 'HARNESS_FEEDBACK.md') { continue }
+    $content = Get-Content -Raw -LiteralPath $path.FullName -Encoding UTF8
+    foreach ($match in [regex]::Matches($content, '[A-Za-z]:\\[^\s`''"<>|]*S_HNess')) {
+        if ($match.Value -ne $defaultCanonicalRoot) {
+            $errors.Add("Hard-coded harness root '$($match.Value)' differs from default '$defaultCanonicalRoot' in $($path.FullName)")
+        }
+    }
+}
+
+# s-route must list every phase declared by the routing contract.
+$routingContractPath = Join-Path $coreRoot 'references\routing-contract.md'
+$routeSkillPath = Join-Path $coreRoot 'skills\s-route\SKILL.md'
+$routingContent = Get-Content -Raw -LiteralPath $routingContractPath -Encoding UTF8
+$routeContent = Get-Content -Raw -LiteralPath $routeSkillPath -Encoding UTF8
+if ($routingContent -match '(?m)^phase:\s*(.+)$') {
+    foreach ($phase in ($Matches[1] -split '\|' | ForEach-Object { $_.Trim() })) {
+        if ($routeContent -notmatch ('`' + [regex]::Escape($phase) + '`')) {
+            $errors.Add("Phase '$phase' from routing contract is missing in $routeSkillPath")
+        }
+    }
+}
+else {
+    $errors.Add("Routing contract has no phase declaration: $routingContractPath")
+}
+
 if ($manifestPaths.Count -eq 0) { $errors.Add('No plugin manifests found.') }
 if ($skillPaths.Count -eq 0) { $errors.Add('No skills found.') }
 
 if ($errors.Count -gt 0) {
-    $errors | ForEach-Object { Write-Error $_ }
+    # Report every error; Write-Error would terminate on the first one under ErrorActionPreference=Stop.
+    $errors | ForEach-Object { [Console]::Error.WriteLine("ERROR: $_") }
+    [Console]::Error.WriteLine("Validation failed with $($errors.Count) error(s).")
     exit 1
 }
 

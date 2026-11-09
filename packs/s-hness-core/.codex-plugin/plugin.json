@@ -1,6 +1,6 @@
 {
   "name": "s-hness-core",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Core routing and lifecycle skills for the S_HNess personal engineering harness.",
   "author": {
     "name": "Local developer"
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "S_HNess Core",
     "shortDescription": "Discover, specify, plan, cook, and verify engineering work.",
-    "longDescription": "Provides the domain-neutral outer layer for discovering, specifying behavior, routing, planning, executing, orchestrating multi-phase plans, verifying, and reviewing work. Optional domain packs add specialized guidance without duplicating this lifecycle.",
+    "longDescription": "Provides the domain-neutral outer layer for discovering, specifying behavior, routing, planning, executing, orchestrating multi-phase plans, verifying, and reviewing work. Internal domain capabilities (backend, frontend, web, tools) add specialized guidance without duplicating this lifecycle.",
     "developerName": "Local developer",
     "category": "Productivity",
     "capabilities": [

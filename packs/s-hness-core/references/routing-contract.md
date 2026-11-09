@@ -25,7 +25,7 @@ assumptions:
 2. Infer phase from the requested outcome, not isolated keywords.
 3. Select the narrowest domain that owns the work.
 4. Use multiple domains only when the request crosses real responsibility boundaries.
-5. If a domain pack is unavailable, route through core and identify the missing specialization.
+5. If no internal domain capability owns the work, route through core and identify the missing specialization.
 
 `skills` identifies the public core skill that owns the next action. `capabilities` identifies the internal domain guidance that core should load for that action; it does not
 make an internal capability a separately invocable public skill. Use public `s-control` for live authorization and interaction requests; it delegates to `tools/ai-control-runtime`.
@@ -42,9 +42,11 @@ Use `s-control` when the user wants AI to authorize, configure, attach to, or in
 
 Use `s-test` for a standalone, risk-based test workflow that defines test scope, compares material strategy choices, executes checks, triages failures, and records evidence. Use `s-verify` afterward when the results must be mapped to acceptance criteria for a lifecycle handoff.
 
+`debug` and `deliver` have no dedicated public skill. Route `debug` to `s-test` for reproduction and failure triage, then to `s-run` for an authorized focused fix. Route `deliver` to `s-run` (or `s-cook` for a multi-phase delivery plan) with the tool packaging and delivery-verification capabilities; delivery never authorizes publishing or deployment.
+
 ## Installed domain mapping
 
-For `backend`, choose the narrowest installed specialization:
+For `backend`, choose the narrowest internal capability:
 
 - `be-api-design` for public or internal service contracts;
 - `be-data-design` for persistence ownership, schemas, and migrations;
@@ -52,7 +54,7 @@ For `backend`, choose the narrowest installed specialization:
 - `be-security-reliability` for backend security, resilience, and recovery; and
 - `be-verify` for backend-focused evidence.
 
-For `frontend`, choose the narrowest installed specialization:
+For `frontend`, choose the narrowest internal capability:
 
 - `fe-architecture` for application, route, feature, and dependency boundaries;
 - `fe-ui` for interaction and component-state design;
@@ -60,14 +62,14 @@ For `frontend`, choose the narrowest installed specialization:
 - `fe-quality` for accessibility, responsive, localization, and performance requirements; and
 - `fe-verify` for frontend-focused evidence.
 
-For `web`, choose the narrowest installed specialization:
+For `web`, choose the narrowest internal capability:
 
 - `web-system-design` for full-stack architecture and rendering boundaries;
 - `web-integration` for browser-service contracts, identity flows, and cross-boundary failures;
 - `web-deployment` for environments, rollout, migration, and recovery design; and
 - `web-verify` for browser-to-service verification evidence.
 
-For `tools`, choose the narrowest installed specialization:
+For `tools`, choose the narrowest internal capability:
 
 - `tool-product-design` for tool form, architecture, runtime boundaries, and project structure;
 - `tool-interface-design` for CLI, TUI, desktop, chat, plugin, add-in, or automation interactions;
